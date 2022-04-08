@@ -26,7 +26,7 @@
 
 **PC端**：web、MacOS、Windows
 
-- - **开发语言**：Java
+  - **开发语言**：Java
   - **前端框架**：vue
   - **后端框架**：
   - **服务器**：Linux8.5、Nginx
