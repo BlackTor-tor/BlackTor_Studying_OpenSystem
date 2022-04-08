@@ -34,7 +34,7 @@
 
 
 
-**移动端**：H5、小程序、iOS、Android**
+**移动端**：H5、小程序、iOS、Android
 
 
 
