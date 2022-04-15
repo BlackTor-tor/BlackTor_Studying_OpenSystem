@@ -11,7 +11,7 @@ public class ResultTool {
         return new JsonResult(true);
     }
 
-    public static <T> JsonResult<T> success(T data) {
+    public static JsonResult success(Object data) {
         return new JsonResult(true, data);
     }
 
@@ -25,6 +25,12 @@ public class ResultTool {
 
     public static JsonResult fail(ResultCode resultEnum, String msg) {
         JsonResult jsonResult = new JsonResult(false, resultEnum);
+        jsonResult.setMsg(msg);
+        return jsonResult;
+    }
+
+    public static JsonResult fail(String msg) {
+        JsonResult jsonResult = new JsonResult(false, ResultCode.COMMON_FAIL);
         jsonResult.setMsg(msg);
         return jsonResult;
     }

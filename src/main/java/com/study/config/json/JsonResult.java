@@ -8,11 +8,11 @@ import java.io.Serializable;
  * @author Cyanogen
  * @date 2022-04-13 21:05:33
  */
-public class JsonResult<T> implements Serializable {
+public class JsonResult implements Serializable {
     private Boolean success;
     private Integer code;
     private String msg;
-    private T data;
+    private Object data;
 
     public JsonResult() {
     }
@@ -29,14 +29,14 @@ public class JsonResult<T> implements Serializable {
         this.msg = success ? ResultCode.SUCCESS.getMessage() : (resultEnum == null ? ResultCode.COMMON_FAIL.getMessage() : resultEnum.getMessage());
     }
 
-    public JsonResult(boolean success, T data) {
+    public JsonResult(boolean success, Object data) {
         this.success = success;
         this.code = success ? ResultCode.SUCCESS.getCode() : ResultCode.COMMON_FAIL.getCode();
         this.msg = success ? ResultCode.SUCCESS.getMessage() : ResultCode.COMMON_FAIL.getMessage();
         this.data = data;
     }
 
-    public JsonResult(boolean success, ResultCode resultEnum, T data) {
+    public JsonResult(boolean success, ResultCode resultEnum, Object data) {
         this.success = success;
         this.code = success ? ResultCode.SUCCESS.getCode() : (resultEnum == null ? ResultCode.COMMON_FAIL.getCode() : resultEnum.getCode());
         this.msg = success ? ResultCode.SUCCESS.getMessage() : (resultEnum == null ? ResultCode.COMMON_FAIL.getMessage() : resultEnum.getMessage());
@@ -67,11 +67,11 @@ public class JsonResult<T> implements Serializable {
         this.msg = msg;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }
