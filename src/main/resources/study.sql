@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 18/04/2022 12:32:30
+ Date: 18/04/2022 13:33:12
 */
 
 SET NAMES utf8mb4;
@@ -161,6 +161,20 @@ CREATE TABLE `real_message`
   ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for role
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role`
+(
+    `roleId`   int(11)                                                 NOT NULL AUTO_INCREMENT COMMENT '角色id',
+    `roleName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名',
+    PRIMARY KEY (`roleId`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci COMMENT = '角色表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
@@ -187,6 +201,26 @@ CREATE TABLE `user`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8
   COLLATE = utf8_general_ci COMMENT = '用户基本信息表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role`
+(
+    `id`     bigint(20)                                              NOT NULL AUTO_INCREMENT,
+    `bsosId` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
+    `roleId` int(11)                                                 NOT NULL COMMENT '角色id',
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `user_role_role_roleId_fk` (`roleId`) USING BTREE,
+    INDEX `user_role_user_bsosId_fk` (`bsosId`) USING BTREE,
+    CONSTRAINT `user_role_role_roleId_fk` FOREIGN KEY (`roleId`) REFERENCES `role` (`roleid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `user_role_user_bsosId_fk` FOREIGN KEY (`bsosId`) REFERENCES `user` (`bsosid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci COMMENT = '用户-角色表'
   ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
