@@ -34,7 +34,8 @@ public enum ResultCode {
 
     /* 业务错误 */
     NO_PERMISSION(3001, "没有权限"),
-    UPLOAD_ERROR(3002, "图片上传失败");
+    UPLOAD_ERROR(3002, "图片上传失败"),
+    INVALID_INVITE_CODE(3002, "非法验证码");
 
     private Integer code;
     private String message;

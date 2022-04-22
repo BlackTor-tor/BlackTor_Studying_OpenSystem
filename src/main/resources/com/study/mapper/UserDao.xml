@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.UserDao">
+
+    <resultMap id="BaseResultMap" type="com.study.entity.User">
+        <!--@Table user-->
+        <result property="bsosId" column="bsosId" jdbcType="VARCHAR"/>
+        <result property="registrationNumber" column="registrationNumber" jdbcType="INTEGER"/>
+        <result property="nickName" column="nickName" jdbcType="VARCHAR"/>
+        <result property="userAccount" column="userAccount" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="recentLoginTime" column="recentLoginTime" jdbcType="TIMESTAMP"/>
+        <result property="registerTime" column="registerTime" jdbcType="TIMESTAMP"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="descriptions" column="descriptions" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="problem" column="problem" jdbcType="VARCHAR"/>
+        <result property="ans" column="ans" jdbcType="VARCHAR"/>
+        <result property="isRealName" column="isRealName" jdbcType="BOOLEAN"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="isEnable" column="isEnable" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          bsosId, registrationNumber, nickName, userAccount, password, email, recentLoginTime, registerTime, avatar, descriptions, phone, age, problem, ans, isRealName, score, isEnable
+        from user
+        where bsosId = #{bsosId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          bsosId, registrationNumber, nickName, userAccount, password, email, recentLoginTime, registerTime, avatar, descriptions, phone, age, problem, ans, isRealName, score, isEnable
+        from user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          bsosId, registrationNumber, nickName, userAccount, password, email, recentLoginTime, registerTime, avatar, descriptions, phone, age, problem, ans, isRealName, score, isEnable
+        from user
+        <where>
+            <if test="bsosId != null and bsosId != ''">
+                and bsosId = #{bsosId}
+            </if>
+            <if test="registrationNumber != null">
+                and registrationNumber = #{registrationNumber}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nickName = #{nickName}
+            </if>
+            <if test="userAccount != null and userAccount != ''">
+                and userAccount = #{userAccount}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="recentLoginTime != null">
+                and recentLoginTime = #{recentLoginTime}
+            </if>
+            <if test="registerTime != null">
+                and registerTime = #{registerTime}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar}
+            </if>
+            <if test="descriptions != null and descriptions != ''">
+                and descriptions = #{descriptions}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="problem != null and problem != ''">
+                and problem = #{problem}
+            </if>
+            <if test="ans != null and ans != ''">
+                and ans = #{ans}
+            </if>
+            <if test="isRealName != null">
+                and isRealName = #{isRealName}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="isEnable != null">
+                and isEnable = #{isEnable}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="bsosId" useGeneratedKeys="true">
+        insert into user(bsosId, registrationNumber, nickName, userAccount, password, email, recentLoginTime, registerTime, avatar, descriptions, phone, age, problem, ans, isRealName, score, isEnable)
+        values (#{bsosId}, #{registrationNumber}, #{nickName}, #{userAccount}, #{password}, #{email}, #{recentLoginTime}, #{registerTime}, #{avatar}, #{descriptions}, #{phone}, #{age}, #{problem}, #{ans}, #{isRealName}, #{score}, #{isEnable})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user
+        <set>
+            <if test="registrationNumber != null">
+                registrationNumber = #{registrationNumber},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nickName = #{nickName},
+            </if>
+            <if test="userAccount != null and userAccount != ''">
+                userAccount = #{userAccount},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="recentLoginTime != null">
+                recentLoginTime = #{recentLoginTime},
+            </if>
+            <if test="registerTime != null">
+                registerTime = #{registerTime},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="descriptions != null and descriptions != ''">
+                descriptions = #{descriptions},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="problem != null and problem != ''">
+                problem = #{problem},
+            </if>
+            <if test="ans != null and ans != ''">
+                ans = #{ans},
+            </if>
+            <if test="isRealName != null">
+                isRealName = #{isRealName},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="isEnable != null">
+                isEnable = #{isEnable},
+            </if>
+        </set>
+        where bsosId = #{bsosId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from user where bsosId = #{bsosId}
+    </delete>
+
+    <!--通过用户名查询是否存在用户-->
+    <select id="checkAccount" resultType="java.lang.Boolean">
+        select exists(select 1 from user where username = #{username})
+    </select>
+
+    <!--通过用户id查询用户角色-->
+    <select id="queryUserRoleById" resultMap="BaseResultMap">
+        select r.roleName
+        from role r
+                 inner join user
+                 inner join user_role ur
+                on r.roleId = ur.roleId and user.bsosId = ur.bsosId
+        where ur.bsosId = #{bsosId}
+    </select>
+
+    <!--通过用户账号查询用户角色-->
+    <select id="queryUserRoleByUserAccount" resultMap="BaseResultMap">
+        select *
+        from role r
+                 inner join user
+                 inner join user_role ur
+                on r.roleId = ur.roleId and user.bsosId = ur.bsosId
+        where ur.userAccount = #{userAccount}
+    </select>
+
+
+</mapper>
