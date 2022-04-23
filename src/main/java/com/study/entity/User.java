@@ -1,5 +1,6 @@
 package com.study.entity;
 
+import com.study.common.Const;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 用户基本信息表(User)实体类
@@ -138,6 +140,29 @@ public class User implements Serializable, UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnable;
+    }
+
+    /**
+     * 生成用户id
+     *
+     * @param length 生成的随机字符串长度
+     *
+     */
+    public void setBsosId(int length) {
+
+
+        if (length < 1) {
+            length = 1;
+        }
+        final StringBuilder sb = new StringBuilder(length);
+        int baseLength = Const.SAMPLE_STRING.length();
+        while (sb.length() < length) {
+            //此处用ThreadLocalRandom 不用Random的感兴趣的同学可以看看这俩的区别
+            //主要区别在于多线程高并发环境下 ThreadLocalRandom比Random生成随机数的速度快
+            int number = ThreadLocalRandom.current().nextInt(baseLength);
+            sb.append(Const.SAMPLE_STRING.charAt(number));
+        }
+        this.bsosId = sb.toString();
     }
 
 }

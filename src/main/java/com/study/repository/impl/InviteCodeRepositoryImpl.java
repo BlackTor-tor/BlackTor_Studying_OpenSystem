@@ -14,8 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.study.utils.GenerateUtil.randomString;
-
 
 /**
  * 邀请码仓库实现类
@@ -43,15 +41,18 @@ public class InviteCodeRepositoryImpl implements InviteCodeRepository {
 
     @Override
     public String save(String bsosId) {
-        String code;
+        InviteCode inviteCode = new InviteCode();
         //生成合法邀请码
         do {
-            code = randomString(4, 2);
-        } while (find(code) != null);
+            inviteCode.setInviteCode(4, 2);
+        } while (find(inviteCode.getInviteCode()) != null);
 
-        int insert = inviteCodeDao.insert(new InviteCode(code, bsosId, new Date(), 0L));
+        inviteCode.setUseCount(0L);
+        inviteCode.setBsosId(bsosId);
+        inviteCode.setCreatTime(new Date());
+        int insert = inviteCodeDao.insert(inviteCode);
         if (insert > 0) {
-            return code;
+            return inviteCode.getInviteCode();
         } else {
             return null;
         }

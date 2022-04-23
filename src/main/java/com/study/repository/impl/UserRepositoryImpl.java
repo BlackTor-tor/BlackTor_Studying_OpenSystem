@@ -11,8 +11,6 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import static com.study.utils.GenerateUtil.randomString;
-
 /**
  * 用户仓库实现类
  *
@@ -27,11 +25,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Integer save(User user) {
-        String bsosId;
+
         do {
-            bsosId = randomString(256);
-        } while (userDao.queryById(bsosId) != null);
-        user.setBsosId(bsosId);
+            user.setBsosId(256);
+        } while (userDao.queryById(user.getBsosId()) != null);
+
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setIsRealName(false);
         user.setIsEnable(true);
