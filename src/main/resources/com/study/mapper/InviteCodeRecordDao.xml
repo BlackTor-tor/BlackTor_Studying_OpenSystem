@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.InviteCodeRecordDao">
+
+    <resultMap id="BaseResultMap" type="com.study.entity.InviteCodeRecord">
+        <!--@Table invite_code_record-->
+        <result property="recordId" column="recordId" jdbcType="INTEGER"/>
+        <result property="bsosId" column="bsosId" jdbcType="VARCHAR"/>
+        <result property="invitedId" column="invitedId" jdbcType="VARCHAR"/>
+        <result property="usingTime" column="usingTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          recordId, bsosId, invitedId, usingTime
+        from invite_code_record
+        where recordId = #{recordId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          recordId, bsosId, invitedId, usingTime
+        from invite_code_record
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          recordId, bsosId, invitedId, usingTime
+        from invite_code_record
+        <where>
+            <if test="recordId != null">
+                and recordId = #{recordId}
+            </if>
+            <if test="bsosId != null and bsosId != ''">
+                and bsosId = #{bsosId}
+            </if>
+            <if test="invitedId != null and invitedId != ''">
+                and invitedId = #{invitedId}
+            </if>
+            <if test="usingTime != null">
+                and usingTime = #{usingTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="recordId" useGeneratedKeys="true">
+        insert into invite_code_record(bsosId, invitedId, usingTime)
+        values (#{bsosId}, #{invitedId}, #{usingTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update invite_code_record
+        <set>
+            <if test="bsosId != null and bsosId != ''">
+                bsosId = #{bsosId},
+            </if>
+            <if test="invitedId != null and invitedId != ''">
+                invitedId = #{invitedId},
+            </if>
+            <if test="usingTime != null">
+                usingTime = #{usingTime},
+            </if>
+        </set>
+        where recordId = #{recordId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from invite_code_record where recordId = #{recordId}
+    </delete>
+
+</mapper>

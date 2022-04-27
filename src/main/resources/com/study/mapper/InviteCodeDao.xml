@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.InviteCodeDao">
+
+    <resultMap id="BaseResultMap" type="com.study.entity.InviteCode">
+        <!--@Table invite_code-->
+        <result property="inviteCode" column="inviteCode" jdbcType="VARCHAR"/>
+        <result property="bsosId" column="bsosId" jdbcType="VARCHAR"/>
+        <result property="creatTime" column="creatTime" jdbcType="TIMESTAMP"/>
+        <result property="useCount" column="useCount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByInviteCode" resultMap="BaseResultMap">
+        select
+          inviteCode, bsosId, creatTime, useCount
+        from invite_code
+        where inviteCode = #{inviteCode}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          inviteCode, bsosId, creatTime, useCount
+        from invite_code
+        <where>
+            <if test="inviteCode != null and inviteCode != ''">
+                and inviteCode = #{inviteCode}
+            </if>
+            <if test="bsosId != null and bsosId != ''">
+                and bsosId = #{bsosId}
+            </if>
+            <if test="creatTime != null">
+                and creatTime = #{creatTime}
+            </if>
+            <if test="useCount != null">
+                and useCount = #{useCount}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="inviteCode" useGeneratedKeys="true">
+        insert into invite_code(bsosId, creatTime, useCount)
+        values (#{bsosId}, #{creatTime}, #{useCount})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update invite_code
+        <set>
+            <if test="bsosId != null and bsosId != ''">
+                bsosId = #{bsosId},
+            </if>
+            <if test="creatTime != null">
+                creatTime = #{creatTime},
+            </if>
+            <if test="useCount != null">
+                useCount = #{useCount},
+            </if>
+        </set>
+        where inviteCode = #{inviteCode}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from invite_code where inviteCode = #{inviteCode}
+    </delete>
+
+    <!--查询邀请码是否存在-->
+    <select id="checkInviteCode" resultType="java.lang.Boolean">
+        select exists(select 1 from invite_code where inviteCode = #{inviteCode})
+    </select>
+
+    <!--查询邀请码及其权限-->
+    <select id="checkInviteCodeRole" resultType="com.study.entity.InviteCode">
+        select *
+        from invite_code
+        where inviteCode = #{inviteCode} and bsosId = (
+            select bsosId
+            from user_role
+            where roleId = (
+                select r.roleId
+                from role r
+                where r.roleName = 'user'
+            )
+        );
+
+    </select>
+
+</mapper>

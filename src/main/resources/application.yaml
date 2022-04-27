@@ -1,0 +1,44 @@
+spring:
+  servlet:
+    multipart:
+      #配置文件最大限制
+      max-file-size: -1
+  datasource:
+    url: jdbc:mysql://localhost:3306/study?serverTimezone=UTC&&characterEncoding=utf-8&useSSL=false
+    username: #自己的用户名
+    password: #自己的密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  redis:
+    #用redis的哪个库
+    database: 0
+    host: #ip地址
+    #端口号
+    port: 6379
+    password: #自己的密码
+    #连接池配置
+    #如果项目使用了 Lettuce 只需将配置 jedis 修改 lettuce 即可
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+
+#原来在MybatisConfig配置的设置在导入依赖后,可以直接在properties或yaml配置
+mybatis:
+  type-aliases-package: com.turingcourt
+  configuration.map-underscore-to-camel-case: true
+  configuration:
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+
+#jwt数据配置
+study:
+  jwt:
+    header: Authorization
+    #7天,秒单位
+    expire: 604800
+    #32位密钥
+    secret: ji8n3439n439n43ld9ne9343fdfer49h
