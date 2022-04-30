@@ -19,7 +19,7 @@ public interface UserRepository {
      * @param user 用户实体
      * @return 印象行数
      */
-    Integer save(User user);
+    Integer saveUser(User user);
 
 
     /**

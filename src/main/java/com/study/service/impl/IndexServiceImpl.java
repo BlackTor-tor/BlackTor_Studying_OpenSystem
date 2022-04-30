@@ -1,10 +1,14 @@
 package com.study.service.impl;
 
 
+import com.study.entity.Role;
 import com.study.entity.User;
 import com.study.repository.InviteCodeRepository;
+import com.study.repository.RoleRepository;
 import com.study.repository.UserRepository;
 import com.study.service.IndexService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户通用操作
@@ -29,9 +35,12 @@ public class IndexServiceImpl implements IndexService, UserDetailsService {
     @Resource
     private InviteCodeRepository inviteCodeRepository;
 
+    @Resource
+    private RoleRepository roleRepository;
+
     @Override
     public Boolean register(User user, String inviteCode) {
-        int insert = userRepository.save(user);
+        int insert = userRepository.saveUser(user);
 
         //更改邀请码状态
         //返回邀请码的用户id
@@ -74,5 +83,17 @@ public class IndexServiceImpl implements IndexService, UserDetailsService {
             return user;
         }
         throw new UsernameNotFoundException("用户不存在!");
+    }
+
+    @Override
+    public List<GrantedAuthority> getUserAuthorityInfo(String userAccount) {
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        //获取角色权限
+        List<Role> roles = roleRepository.findUserRole(userAccount);
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+        }
+        return authorities;
     }
 }

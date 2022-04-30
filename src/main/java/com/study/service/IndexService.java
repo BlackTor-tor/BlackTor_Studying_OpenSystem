@@ -2,6 +2,9 @@ package com.study.service;
 
 
 import com.study.entity.User;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
 
 /**
  * 用户注册/登录
@@ -38,4 +41,12 @@ public interface IndexService {
      * @return 是否更改成功
      */
     Boolean changePassword(String username, String password);
+
+    /**
+     * 获取用户所拥有的权限
+     *
+     * @param userAccount 用户账号
+     * @return 用户所拥有的权限
+     */
+    List<GrantedAuthority> getUserAuthorityInfo(String userAccount);
 }

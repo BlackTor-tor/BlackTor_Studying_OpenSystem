@@ -1,9 +1,7 @@
 package com.study.config.security;
 
 
-import com.study.entity.User;
 import com.study.service.IndexService;
-import com.study.service.UserService;
 import com.study.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -31,9 +29,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     private JwtUtil jwtUtil;
 
     @Resource
-    private UserService userService;
-
-    @Resource
     private IndexService indexService;
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -57,11 +52,12 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throw new JwtException("token已过期");
         }
 
+        //从claim中获取用户账号
         String userAccount = claim.getSubject();
-        User user = userService.queryByUserAccount(userAccount);
+
         //获取用户的权限等信息
         UsernamePasswordAuthenticationToken token
-                = new UsernamePasswordAuthenticationToken(userAccount, null, null);
+                = new UsernamePasswordAuthenticationToken(userAccount, null, indexService.getUserAuthorityInfo(userAccount));
 
         SecurityContextHolder.getContext().setAuthentication(token);
 

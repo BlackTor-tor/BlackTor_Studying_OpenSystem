@@ -24,7 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
     private UserDao userDao;
 
     @Override
-    public Integer save(User user) {
+    public Integer saveUser(User user) {
 
         do {
             user.setBsosId(256);
